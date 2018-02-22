@@ -131,7 +131,7 @@ namespace TelnetCalc.Server
                 _numbers[id] += n;
             }
 
-            client.SendMessage(new ScsTextMessage("Total sum: " + _numbers[id])
+            client.SendMessage(new ScsTextMessage("Sum: " + _numbers[id])
             {
                 RepliedMessageId = Guid.NewGuid().ToString()
             });
