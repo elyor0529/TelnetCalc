@@ -31,7 +31,10 @@ namespace TelnetCalc.Client
                     client.Disconnect();
                 };
                 Console.WriteLine($"Server is connected by {port} port");
-                Console.WriteLine("Press enter to stop client application");
+                Console.WriteLine();
+                Console.WriteLine("Commands:");
+                Console.WriteLine("'quit' - stop server application");
+                Console.WriteLine();
 
                 do
                 {
@@ -41,6 +44,9 @@ namespace TelnetCalc.Client
                     try
                     {
                         if (string.IsNullOrWhiteSpace(s))
+                            continue; 
+
+                        if (s == "quit")
                         {
                             client.Disconnect();
                             Console.WriteLine($"Server is disconnected by {port} port");
@@ -50,13 +56,15 @@ namespace TelnetCalc.Client
 
                         if (!int.TryParse(s, NumberStyles.None, null, out var n))
                         {
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Incorrect format,please try again!");
+                            Console.ResetColor();
 
                             continue;
                         }
-                         
+
                         client.SendMessage(new ScsTextMessage(s));
-                         
+
                     }
                     catch (Exception e)
                     {
@@ -67,18 +75,22 @@ namespace TelnetCalc.Client
 
                 } while (true);
 
-            }
-
-            Console.ReadKey();
+            } 
         }
 
-        private static void Client_MessageReceived  (object sender, MessageEventArgs e)
+        private static void Client_MessageReceived(object sender, MessageEventArgs e)
         {
             var message = (ScsTextMessage)e.Message;
 
             if (!string.IsNullOrWhiteSpace(message.RepliedMessageId))
             {
+                Console.WriteLine();
+                Console.WriteLine("---------------------------------");
+
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine(message.Text);
+                Console.ResetColor();
+                Console.WriteLine();
             }
         }
     }
