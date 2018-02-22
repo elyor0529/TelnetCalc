@@ -1,0 +1,17 @@
+/.idea
+/standart/build
+/.vs
+/core/TelnetCalc.Core.Client/bin
+/core/TelnetCalc.Core.Client/obj
+/core/TelnetCalc.Core.Common/bin
+/core/TelnetCalc.Core.Common/obj
+/core/TelnetCalc.Core.Server/obj
+/core/TelnetCalc.Core.Server/bin
+/core/TelnetCalc.Core.xUnit/bin
+/core/TelnetCalc.Core.xUnit/obj
+/standart/TelnetCalc.Client/bin
+/standart/TelnetCalc.Client/obj
+/standart/TelnetCalc.Common/bin
+/standart/TelnetCalc.Common/obj
+/standart/TelnetCalc.Server/bin
+/standart/TelnetCalc.Server/obj
