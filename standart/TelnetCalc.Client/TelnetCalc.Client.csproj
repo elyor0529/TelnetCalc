@@ -53,11 +53,5 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TelnetCalc.Common\TelnetCalc.Common.csproj">
-      <Project>{36CF303A-16EF-4446-A60D-C6C38D6BA533}</Project>
-      <Name>TelnetCalc.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
