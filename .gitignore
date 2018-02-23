@@ -20,3 +20,7 @@
 /TelnetCalc.Client/bin
 /TelnetCalc.Client/obj
 /build
+/TelnetCalc.Common/bin
+/TelnetCalc.Common/obj
+/TelnetCalc.XUnit/bin
+/TelnetCalc.XUnit/obj
