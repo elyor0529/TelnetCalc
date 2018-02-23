@@ -15,3 +15,8 @@
 /standart/TelnetCalc.Common/obj
 /standart/TelnetCalc.Server/bin
 /standart/TelnetCalc.Server/obj
+/TelnetCalc.Server/bin
+/TelnetCalc.Server/obj
+/TelnetCalc.Client/bin
+/TelnetCalc.Client/obj
+/build
