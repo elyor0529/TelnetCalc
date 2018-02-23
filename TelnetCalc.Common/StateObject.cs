@@ -11,9 +11,6 @@ namespace TelnetCalc.Common
         // Client  socket.  
         public Socket Socket { get; set; }
 
-        // Size of receive buffer.  
-        public const int BufferSize = 1024;
-
         // Receive buffer.  
         public byte[] Buffer { get; set; }
 
@@ -22,7 +19,7 @@ namespace TelnetCalc.Common
 
         public StateObject()
         {
-            Buffer = new byte[BufferSize];
+            Buffer = new byte[MainSettings.BufferSize];
             Data = new StringBuilder();
         }
     }

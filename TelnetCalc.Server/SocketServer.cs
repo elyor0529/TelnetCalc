@@ -8,6 +8,11 @@ using TelnetCalc.Common;
 
 namespace TelnetCalc.Server
 {
+
+    /// <summary>
+    /// Asynchronous Server Socket Example
+    /// https://docs.microsoft.com/en-us/dotnet/framework/network-programming/asynchronous-server-socket-example
+    /// </summary>
     public class SocketServer
     {
         // Thread signal.  
@@ -23,7 +28,7 @@ namespace TelnetCalc.Server
         public void Start()
         {
             // Data buffer for incoming data.  
-            byte[] bytes = new Byte[1024];
+            var bytes = new byte[MainSettings.DataSize];
 
             // Establish the local endpoint for the socket.  
             // The DNS name of the computer  
@@ -39,7 +44,7 @@ namespace TelnetCalc.Server
             try
             {
                 listener.Bind(localEndPoint);
-                listener.Listen(100);
+                listener.Listen(MainSettings.BackLog);
 
                 while (true)
                 {
@@ -79,12 +84,12 @@ namespace TelnetCalc.Server
             {
                 Socket = handler
             };
-            handler.BeginReceive(state.Buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+            handler.BeginReceive(state.Buffer, 0, MainSettings.BufferSize, 0, new AsyncCallback(ReadCallback), state);
         }
 
         private void ReadCallback(IAsyncResult ar)
         {
-            var content = String.Empty;
+            var content = string.Empty;
 
             // Retrieve the state object and the handler socket  
             // from the asynchronous state object.  
@@ -115,12 +120,12 @@ namespace TelnetCalc.Server
                 else
                 {
                     // Not all data received. Get more.  
-                    handler.BeginReceive(state.Buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+                    handler.BeginReceive(state.Buffer, 0, MainSettings.BufferSize, 0, new AsyncCallback(ReadCallback), state);
                 }
             }
         }
 
-        private void Send(Socket handler, String data)
+        private void Send(Socket handler,string data)
         {
             // Convert the string data to byte data using ASCII encoding.  
             byte[] byteData = Encoding.ASCII.GetBytes(data);

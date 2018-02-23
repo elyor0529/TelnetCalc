@@ -12,6 +12,7 @@ namespace TelnetCalc.Server
         private static int Main(String[] args)
         {
             var server = new SocketServer(11000);
+
             server.Start();
 
             return 0;
