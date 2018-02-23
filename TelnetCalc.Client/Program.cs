@@ -11,6 +11,7 @@ namespace TelnetCalc.Client
     internal class Program
     {
         private static Socket _socket;
+
         private static bool _exit;
 
         public static int Main(string[] args)
@@ -19,13 +20,13 @@ namespace TelnetCalc.Client
             var ip = "127.0.0.1";
             var cmd = new CommandLineApplication()
             {
-                FullName = "A console application that will send data to the number server.",
+                FullName = "Client Socket Application.",
                 Name = "dotnet run --"
             };
-            var ipOption = cmd.Option("-ip|--ip <ip>", $"The ip on which the server is running. Default: {ip}", CommandOptionType.SingleValue);
-            var portOption = cmd.Option("-port|--port <port>", $"The port on which the server is running. Default: {port}", CommandOptionType.SingleValue);
+            var ipOption = cmd.Option("-ip|--ip <ip>", $"Ip. Default: {ip}", CommandOptionType.SingleValue);
+            var portOption = cmd.Option("-port|--port <port>", $"Port. Default: {port}", CommandOptionType.SingleValue);
 
-            cmd.HelpOption("-h|--help"); 
+            cmd.HelpOption("-h|--help");
             cmd.OnExecute(() =>
             {
                 if (portOption.HasValue())
@@ -77,7 +78,7 @@ namespace TelnetCalc.Client
                 var ipAddress = ipHostInfo.AddressList[0];
                 var remoteEP = new IPEndPoint(ipAddress, port);
 
-                Console.WriteLine($"Ping to {ip}:{port}");
+                Console.WriteLine($"Ping... to {ip}:{port}");
 
                 _socket.Connect(remoteEP);
             }
@@ -110,7 +111,18 @@ namespace TelnetCalc.Client
 
                 try
                 {
-                    _socket.Send(n.ToBytes());
+                    //SendReceive#Test4 https://msdn.microsoft.com/en-us/library/w3xtz6a5(v=vs.110).aspx
+                    _socket.Send(s.GetBytes(), 0, s.Length, SocketFlags.None);
+
+                    var buffer = new byte[1024];
+                    var size = _socket.Receive(buffer, 0, _socket.Available, SocketFlags.None);
+
+                    if (size > 0)
+                    {
+                        var result = buffer.GetString();
+
+                        Console.WriteLine(result);
+                    }
                 }
                 catch (SocketException)
                 {

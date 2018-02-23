@@ -16,5 +16,13 @@ namespace TelnetCalc.Common
         /// BackLog size
         public const int BackLog = 100;
 
+        public static int ValueSize = 9;
+
+        public static byte[] NewLineSequence = Environment.NewLine.GetBytes();
+
+        public static int NewLineSize = NewLineSequence.Length;
+
+        public static int ChunkSize = ValueSize + NewLineSize;
+
     }
 }
