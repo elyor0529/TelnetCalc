@@ -1,12 +1,20 @@
 ﻿using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+using TelnetCalc.Common;
 
 namespace TelnetCalc.Server
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static int Main(String[] args)
         {
-            Console.WriteLine("Hello World!");
+            var server = new SocketServer(11000);
+            server.Start();
+
+            return 0;
         }
     }
 }

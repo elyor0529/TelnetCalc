@@ -5,4 +5,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TelnetCalc.Common\TelnetCalc.Common.csproj" />
+  </ItemGroup>
+
 </Project>
