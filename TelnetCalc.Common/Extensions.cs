@@ -6,6 +6,7 @@ namespace TelnetCalc.Common
 {
     public static class Extensions
     {
+
         public static byte[] GetBytes(this string n)
         {
             return Encoding.ASCII.GetBytes(n + Environment.NewLine);

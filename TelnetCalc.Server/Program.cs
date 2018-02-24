@@ -10,7 +10,7 @@ namespace TelnetCalc.Server
 {
     internal class Program
     {
-        private static SocketListener _listener;
+        private static SocketServer _server;
         private static ManualResetEventSlim _exitSignal = new ManualResetEventSlim();
 
         static void Main(string[] args)
@@ -38,40 +38,95 @@ namespace TelnetCalc.Server
         private static void Run(int port)
         {
             Console.WriteLine("Note: Press <CTRL-C> to stop server.");
-
-            // Create and run application, which does all the real work.
-            _listener = new SocketListener(port);
-
-            // Start listening on the specified port, and get callback whenever
-            // new socket connection is established.
-            _listener.Start(socket =>
+             
+            _server = new SocketServer(port);
+             
+            _server.Start(socket =>
             {
-                // New connection. Start reading data from the network stream.
-                // Socket stream reader will call back when a valid value is read
-                // and/or when a terminate command is received.
-                var reader = new SocketReader(socket);
-                reader.Read(ProcessValue);
+                var buffer = new byte[MainSettings.ChunkSize];
+                int bytesRead;
+
+                while ((bytesRead = ReadChunk(socket, buffer)) == MainSettings.ChunkSize)
+                {
+                    if (!ToInt32(buffer, out int value))
+                    {
+                        break;
+                    }
+
+                    ReadValue(value);
+                }
             });
             Console.CancelKeyPress += delegate
             {
-                StopServer();
+                Stop();
             };
-
-            // Block on exit signal to keep process running until exit event encountered
+             
             _exitSignal.Wait();
+        } 
+
+        private static int ReadChunk(Socket socket, byte[] buffer)
+        { 
+            int bytesRead;
+            int bufferOffset = 0;
+
+            while (bufferOffset < buffer.Length)
+            {
+                bytesRead = socket.Receive(buffer, bufferOffset, buffer.Length - bufferOffset, SocketFlags.None);
+
+                if (bytesRead == 0)
+                {
+                    break;
+                }
+
+                bufferOffset += bytesRead;
+            }
+
+            return bufferOffset;
         }
 
-        private static void ProcessValue(int value)
+        private static bool ToInt32(byte[] buffer, out int value)
+        {
+            value = 0; 
+
+            for (var i = 0; i < MainSettings.NewLineSize; i++)
+            {
+                if (buffer[MainSettings.DataSize + i] != MainSettings.NewLineSequence[i])
+                {
+                    return false;
+                }
+            } 
+
+            byte b;
+            int place;
+
+            for (var i = 0; i < MainSettings.DataSize; i++)
+            {
+                b = buffer[i];
+
+                if (b < 48 || b > 57)
+                {
+                    return false;
+                }
+
+                place = (int)Math.Pow(10, MainSettings.DataSize - i - 1);
+                value += ((b - 48) * place);
+            }
+
+            return true;
+        }
+
+        private static void ReadValue(int value)
         {
             Console.WriteLine(value);
         }
 
-        private static void StopServer()
+        private static void Stop()
         {
             Console.WriteLine("Stopping server...");
+
             try
             {
-                _listener.Stop();
+                _server.Stop();
                 _exitSignal.Set();
             }
             catch { }
