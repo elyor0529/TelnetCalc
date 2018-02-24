@@ -3,6 +3,12 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+    <Win32Resource />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>D:\projects\TelnetCalc\build\client\netcoreapp2.0</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +17,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TelnetCalc.Common\TelnetCalc.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="readme.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
