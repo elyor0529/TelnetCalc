@@ -16,14 +16,14 @@ namespace TelnetCalc.Client
         public SocketClient(string ip, int port)
         {
             Console.WriteLine($"Connecting to port {port}...");
-             
+
             _ip = new IPEndPoint(IPAddress.Parse(ip), port);
 
             Console.WriteLine($"Ping... to {ip}:{port}");
         }
 
         public bool Connect()
-        { 
+        {
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             try
@@ -59,32 +59,31 @@ namespace TelnetCalc.Client
 
                 try
                 {
+                    s = n + Environment.NewLine;
+
                     _socket.Send(s.GetBytes(), 0, s.Length, SocketFlags.None);
 
-                    Receieve();
+                    var buffer = new byte[MainSettings.ChunkSize];
+                    var bytesRead = _socket.Receive(buffer, 0, buffer.Length, SocketFlags.None);
+
+                    if (bytesRead > 0)
+                    {
+                        var data = buffer.GetString();
+                        if (int.TryParse(data, out var value))
+                        {
+                            Console.WriteLine($"Sum: {value}");
+                        }
+                    }
+
                 }
-                catch (SocketException)
+                catch (SocketException exp)
                 {
-                    Console.WriteLine("Socket connection closed.");
+                    Console.WriteLine(exp.Message);
 
                     continue;
                 }
 
                 Thread.Sleep(100);
-            }
-        }
-
-        //SendReceive#Test4 https://msdn.microsoft.com/en-us/library/w3xtz6a5(v=vs.110).aspx
-        private void Receieve()
-        {
-            var buffer = new byte[1024];
-            var size = _socket.Receive(buffer, 0, _socket.Available, SocketFlags.None);
-
-            if (size > 0)
-            {
-                var result = buffer.GetString();
-
-                Console.WriteLine(result);
             }
         }
 

@@ -6,8 +6,6 @@ namespace TelnetCalc.Common
 {
     public struct MainSettings
     {
-         
-        public const int BufferSize = 1024;
           
         public const int BackLog = 100;
 
@@ -20,6 +18,8 @@ namespace TelnetCalc.Common
         public static int NewLineSize = NewLineSequence.Length;
 
         public static int ChunkSize = DataSize + NewLineSize;
-         
+
+        public const int TimeOut = 12 * 60 * 60;
+        
     }
 }
