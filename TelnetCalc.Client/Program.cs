@@ -24,7 +24,7 @@ namespace TelnetCalc.Client
             var ipOption = cmd.Option("-ip|--ip <ip>", $"Ip. Default: {ip}", CommandOptionType.SingleValue);
             var portOption = cmd.Option("-port|--port <port>", $"Port. Default: {port}", CommandOptionType.SingleValue);
 
-            cmd.HelpOption("-h|--help");
+            cmd.HelpOption("-help|--help");
             cmd.OnExecute(() =>
             {
                 if (portOption.HasValue())

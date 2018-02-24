@@ -21,9 +21,9 @@ namespace TelnetCalc.Server
                 FullName = "Server Socket application.",
                 Name = "dotnet run --"
             };
-            var portOption = cmd.Option("-p|--port <port>", $"Port. Default: {port}", CommandOptionType.SingleValue);
+            var portOption = cmd.Option("-port|--port <port>", $"Port. Default: {port}", CommandOptionType.SingleValue);
 
-            cmd.HelpOption("-?|-h|--help");
+            cmd.HelpOption("-help|--help");
             cmd.OnExecute(() =>
             {
                 if (portOption.HasValue()) port = int.Parse(portOption.Value());

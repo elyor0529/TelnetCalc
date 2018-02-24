@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>D:\projects\TelnetCalc\build\client\netcoreapp2.0</OutputPath>
+    <OutputPath>D:\projects\TelnetCalc\build\client\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
